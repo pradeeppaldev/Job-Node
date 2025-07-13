@@ -6,21 +6,24 @@ import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/db.js";
 import * as Sentry from "@sentry/node";
+import { clerkWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
 
 await connectDB();
 
+app.use(cors());
+app.use(express.json());
+
 app.get("/debug-sentry", (req, res) => {
   throw new Error("My first Sentry error!");
 });
 
-app.use(cors());
-app.use(express.json());
-
 app.get("/", (req, res) => res.send("API Working"));
 
-Sentry.setupExpressErrorHandler(app);  // ✅ official method for v8+
+app.post('webhooks', clerkWebhooks)
+
+Sentry.setupExpressErrorHandler(app);  // official method for v8+
 
 // Start server
 const PORT = process.env.PORT || 5000;
