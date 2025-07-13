@@ -1,5 +1,5 @@
 import { Webhook } from "svix";
-import User from "../models/User";
+import User from "../models/User.js";
 
 // API Controller Function to Manage Clerk User with database
 export const clerkWebhooks = async (req, res) => {
@@ -13,6 +13,8 @@ export const clerkWebhooks = async (req, res) => {
             "svix-id": req.headers["svix-timestamp"],
             "svix-signature" : req.headers["svix-signature"]
         })
+
+        console.log("Inside clerkWebhook Function")
 
         // Getting Data form request body
         const {data, type} = req.body
