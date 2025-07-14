@@ -7,6 +7,7 @@ import "dotenv/config";
 import connectDB from "./config/db.js";
 import * as Sentry from "@sentry/node";
 import { clerkWebhooks } from "./controllers/webhooks.js";
+import bodyParser from "body-parser";
 
 const app = express();
 
@@ -19,6 +20,8 @@ const app = express();
   }
 })();
 
+app.post("/webhooks", bodyParser.raw({ type: "application/json" }), clerkWebhooks);
+
 app.use(cors());
 app.use(express.json());
 
@@ -28,7 +31,7 @@ app.get("/debug-sentry", (req, res) => {
 
 app.get("/", (req, res) => res.send("API Working"));
 
-app.post('/webhooks', clerkWebhooks)
+// app.post('/webhooks', clerkWebhooks)
 
 Sentry.setupExpressErrorHandler(app);  // official method for v8+
 
