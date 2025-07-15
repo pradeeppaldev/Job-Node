@@ -8,17 +8,20 @@ import connectDB from "./config/db.js";
 import * as Sentry from "@sentry/node";
 import { clerkWebhooks } from "./controllers/webhooks.js";
 import bodyParser from "body-parser";
+import companyRoutes from './routes/companyRoutes.js'
+import connectCloudinary from "./config/cloudinary.js";
 
 const app = express();
 
 // await connectDB();
-(async () => {
-  try {
-    await connectDB();
-  } catch (err) {
-    console.error('DB connection failed', err);
-  }
-})();
+// (async () => {
+//   try {
+//     await connectDB();
+//   } catch (err) {
+//     console.error('DB connection failed', err);
+//   }
+// })();
+await connectCloudinary();
 
 app.post("/webhooks", bodyParser.raw({ type: "application/json" }), clerkWebhooks);
 
@@ -30,6 +33,8 @@ app.get("/debug-sentry", (req, res) => {
 });
 
 app.get("/", (req, res) => res.send("API Working"));
+
+app.use('/api/company', companyRoutes)
 
 // app.post('/webhooks', clerkWebhooks)
 

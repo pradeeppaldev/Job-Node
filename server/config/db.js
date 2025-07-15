@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const connectDB = async () => {
     // mongoose.connection.on('Connected', () => console.log('Database Connected'))
     await mongoose.connect(`${process.env.MongoDB_URI}/job-portal`)
-    console.log("Connected")
+    console.log("MongoDB Connected")
 }
 
 export default connectDB
