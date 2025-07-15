@@ -13,7 +13,7 @@ import connectCloudinary from "./config/cloudinary.js";
 
 const app = express();
 
-// await connectDB();
+await connectDB();
 // (async () => {
 //   try {
 //     await connectDB();
