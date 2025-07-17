@@ -1,10 +1,8 @@
 import { Webhook } from "svix";
 import User from "../models/User.js";
-import connectDB from "../config/db.js";
 
 export const clerkWebhooks = async (req, res) => {
   try {
-    await connectDB();
 
     // Convert raw body
     const payload = req.body.toString();
