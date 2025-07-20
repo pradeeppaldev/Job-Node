@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <div className='shadow-lg py-4'>
       <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
-            <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="" />
+            <img onClick={() => navigate('/')} className='cursor-pointer' height={10} width={160} src={assets.logo} alt="" />
             {
                 user
                 ?<div className='flex items-center gap-3'>

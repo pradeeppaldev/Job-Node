@@ -1,8 +1,10 @@
-import logo from "./logo.svg";
+import logo from "./job_node_logo.png";
+import logo_removebg from './logo_removebg.png'
 import search_icon from "./search_icon.svg";
 import company_icon from "./company_icon.svg";
 import microsoft_logo from "./microsoft_logo.svg";
 import walmart_logo from "./walmart_logo.svg";
+import larsen_toubro_logo from "./larsen_toubro_logo.png";
 import accenture_logo from "./accenture_logo.png";
 import profile_img from "./profile_img.png";
 import app_main_img from "./app_main_img.png";
@@ -19,9 +21,11 @@ import app_store from './app_store.svg';
 import back_arrow_icon from './back_arrow_icon.svg';
 import left_arrow_icon from './left_arrow_icon.svg';
 import right_arrow_icon from './right_arrow_icon.svg';
-import facebook_icon from './facebook_icon.svg'
-import instagram_icon from './instagram_icon.svg'
-import twitter_icon from './twitter_icon.svg'
+import facebook_icon from './facebook.png'
+import linkedin_icon from './linkedin.png'
+import youtube_icon from './youtube.png'
+import instagram_icon from './instagram.png'
+import twitter_icon from './twitter.png'
 import home_icon from './home_icon.svg'
 import add_icon from './add_icon.svg'
 import profile_upload_icon from './profile_upload_icon.svg'
@@ -33,6 +37,8 @@ import lock_icon from './lock_icon.svg'
 import samsung_logo from './samsung_logo.png'
 import adobe_logo from './adobe_logo.png'
 import amazon_logo from './amazon_logo.png'
+import HP_logo from './HP_logo.png'
+import fire from './fire.gif'
 
 export const assets = {
     logo,
@@ -44,6 +50,7 @@ export const assets = {
     resume_selected,
     microsoft_logo,
     walmart_logo,
+    larsen_toubro_logo,
     accenture_logo,
     app_main_img,
     play_store,
@@ -69,7 +76,12 @@ export const assets = {
     lock_icon,
     samsung_logo,
     adobe_logo,
-    amazon_logo
+    amazon_logo,
+    fire,
+    linkedin_icon,
+    youtube_icon,
+    HP_logo,
+    logo_removebg
 }
 
 export const JobCategories = [
