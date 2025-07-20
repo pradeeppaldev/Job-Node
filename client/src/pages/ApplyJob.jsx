@@ -47,7 +47,7 @@ const ApplyJob = () => {
       }
 
       if(!userData.resume){
-        navigator('/applications')
+        navigate('/applications')
         return toast.error('Upload resume to apply')
       }
 
@@ -122,7 +122,7 @@ const ApplyJob = () => {
 
             <div className='flex flex-col justify-center text-end text-sm max-md:text-center'>
               <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>{isAlreadyApplied ? 'Already Applied' : 'Apply Now'}</button>
-              <p className='mt-1 text-gray-600'>Posted {moment(JobData.data).fromNow()}</p>
+              <p className='mt-1 text-gray-600'>Posted {moment(JobData.createdAt).fromNow()}</p>
             </div>
 
           </div>

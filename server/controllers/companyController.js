@@ -63,7 +63,7 @@ export const loginCompany = async (req,res) => {
                 company : {
                     _id: company._id,
                     name: company.name,
-                    email: company.image,
+                    email: company.email,
                     image: company.image
                 },
                 token: generateToken(company._id)

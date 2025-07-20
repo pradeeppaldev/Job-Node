@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
 import AppContext from '../context/AppContext'
 import axios from 'axios'
-import {data, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const RecruiterLogin = () => {
@@ -65,7 +65,7 @@ const RecruiterLogin = () => {
           }
 
       } catch (error) {
-        toast.error(data.message)
+        toast.error(error.message)
       }
 
     }
