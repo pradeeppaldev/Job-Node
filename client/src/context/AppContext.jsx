@@ -81,7 +81,7 @@ export const AppContextProvider =(props) => {
             }
             
         } catch (error) {
-            toast.error(data.message)
+            toast.error(error.message)
         }
     }
 

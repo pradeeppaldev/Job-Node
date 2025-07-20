@@ -35,7 +35,7 @@ const Applications = () => {
         toast.success(data.message)
         await fetchUserData()
       } else {
-        toast.error(error.message)
+        toast.error(data.message)
       }
       
     } catch (error) {
