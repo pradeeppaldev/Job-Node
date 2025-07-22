@@ -23,7 +23,11 @@ await connectCloudinary();
 app.post("/webhooks", bodyParser.raw({ type: "application/json" }), clerkWebhooks);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://job-node.vercel.app',
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(clerkMiddleware());
 
