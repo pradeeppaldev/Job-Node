@@ -17,3 +17,66 @@
 ::-webkit-scrollbar{
     display: none;
 }
+
+@layer components {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+  }
+  .gradient-border {
+    @apply bg-gradient-to-b from-light-blue-100 to-light-blue-200 p-4 rounded-2xl;
+  }
+  .primary-button {
+    background: linear-gradient(to bottom, #8e98ff, #606beb);
+    box-shadow: 0px 74px 21px 0px #6678ef00;
+    @apply text-white rounded-full px-4 py-2 cursor-pointer w-full text-center transition-all hover:opacity-90;
+  }
+  .resume-nav {
+    @apply flex flex-row justify-between items-center p-4 border-b border-gray-200;
+  }
+  .resume-summary {
+    @apply flex flex-row items-center justify-center p-4 gap-4;
+  }
+  .resume-summary .category {
+    @apply flex flex-row gap-2 items-center bg-gray-50 rounded-2xl p-4 w-full justify-between;
+  }
+  .back-button {
+    @apply flex flex-row items-center gap-2 border border-gray-200 rounded-lg p-2 shadow-sm hover:bg-gray-50 transition-colors;
+  }
+  .auth-button {
+    background: linear-gradient(to bottom, #8e98ff, #606beb);
+    @apply rounded-full py-4 px-8 cursor-pointer w-full text-2xl font-semibold text-white text-center hover:opacity-90 transition-all;
+  }
+  .main-section {
+    @apply flex flex-col items-center gap-8 pt-12 max-sm:mx-2 mx-6 pb-12;
+  }
+  .page-heading {
+    @apply flex flex-col items-center gap-4 max-w-4xl text-center;
+  }
+  .resumes-section {
+    @apply flex flex-wrap max-md:flex-col max-md:gap-4 gap-6 items-start max-md:items-center w-full justify-evenly;
+  }
+  .resume-card {
+    @apply flex flex-col gap-6 h-[520px] w-[350px] lg:w-[420px] bg-white rounded-2xl p-4 shadow-md border border-gray-100 transition-transform hover:-translate-y-1;
+  }
+  .resume-card-header {
+    @apply flex flex-row gap-2 justify-between min-h-[90px] items-center;
+  }
+  .feedback-section {
+    @apply flex flex-col gap-8 w-1/2 px-8 max-lg:w-full py-6;
+  }
+  .form-div {
+    @apply flex flex-col gap-2 w-full items-start text-left;
+  }
+  .form-div label {
+    @apply text-gray-700 font-medium;
+  }
+  .form-div input, .form-div textarea {
+    @apply w-full p-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white;
+  }
+  .uploader-selected-file {
+    @apply flex items-center justify-between p-3 bg-gray-50 rounded-2xl;
+  }
+  .inset-shadow {
+    box-shadow: inset 0 0 12px 0 rgba(36, 99, 235, 0.2);
+  }
+}

@@ -10,6 +10,12 @@ import Dashboard from './pages/Dashboard'
 import AddJob from './pages/AddJob'
 import ManageJob from './pages/ManageJob'
 import ViewApplications from './pages/ViewApplications'
+import AiResumeHome from './pages/ai-resume/AiResumeHome'
+import AiResumeUpload from './pages/ai-resume/AiResumeUpload'
+import AiResumeDetails from './pages/ai-resume/AiResumeDetails'
+import MockInterviewHome from './pages/mock-interview/MockInterviewHome'
+import MockInterviewSession from './pages/mock-interview/MockInterviewSession'
+import MockInterviewReport from './pages/mock-interview/MockInterviewReport'
 import 'quill/dist/quill.snow.css'
 import { ToastContainer } from 'react-toastify';
 
@@ -25,6 +31,12 @@ const App = () => {
           <Route path='/' element={<Home/>}/>
           <Route path='/apply-job/:id' element={<ApplyJob/>}/>
           <Route path='/applications' element={<Applications/>}/>
+          <Route path='/analyze-resume' element={<AiResumeHome/>}/>
+          <Route path='/analyze-resume/upload' element={<AiResumeUpload/>}/>
+          <Route path='/analyze-resume/:id' element={<AiResumeDetails/>}/>
+          <Route path='/mock-interview' element={<MockInterviewHome/>}/>
+          <Route path='/mock-interview/session/:id' element={<MockInterviewSession/>}/>
+          <Route path='/mock-interview/report/:id' element={<MockInterviewReport/>}/>
           <Route path='/dashboard' element={<Dashboard/>}>
             {
             companyToken? 

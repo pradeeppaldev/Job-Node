@@ -11,17 +11,30 @@ const Navbar = () => {
 
     const navigate = useNavigate()
 
-    const {setShowRecruiterLogin} = useContext(AppContext)
+    const {setShowRecruiterLogin, companyToken} = useContext(AppContext)
 
   return (
     <div className='shadow-lg py-4'>
       <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
             <img onClick={() => navigate('/')} className='cursor-pointer' height={10} width={160} src={assets.logo} alt="" />
             {
-                user
+                user && !companyToken
                 ?<div className='flex items-center gap-3'>
                     <Link to={'/applications'}>Applied Jobs</Link>
                     <p>|</p>
+                    <Link to={'/analyze-resume'} className='text-blue-600 font-medium hover:underline flex items-center gap-1'>
+                      Analyze Resume
+                    </Link>
+                    <p>|</p>
+                    <Link to={'/mock-interview'} className='text-purple-600 font-semibold hover:underline flex items-center gap-1'>
+                      🎤 AI Mock Interview
+                    </Link>
+                    <p>|</p>
+                    <p className='max-sm:hidden'>Hi, {user.firstName + (user.lastName ? " " + user.lastName : "")}</p>
+                    <UserButton/>
+                </div>
+                :user
+                ?<div className='flex items-center gap-3'>
                     <p className='max-sm:hidden'>Hi, {user.firstName + (user.lastName ? " " + user.lastName : "")}</p>
                     <UserButton/>
                 </div>

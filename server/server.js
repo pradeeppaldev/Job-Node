@@ -12,6 +12,7 @@ import companyRoutes from './routes/companyRoutes.js'
 import connectCloudinary from "./config/cloudinary.js";
 import jobRoutes from './routes/jobRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import interviewRoutes from './routes/interviewRoutes.js'
 import {clerkMiddleware} from '@clerk/express'
 
 const app = express();
@@ -23,10 +24,7 @@ await connectCloudinary();
 app.post("/webhooks", bodyParser.raw({ type: "application/json" }), clerkWebhooks);
 
 // Middleware
-app.use(cors({
-  origin: 'https://job-node.vercel.app',
-  credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 app.use(clerkMiddleware());
@@ -43,6 +41,8 @@ app.use('/api/company', companyRoutes)
 app.use('/api/jobs', jobRoutes)
 
 app.use('/api/users', userRoutes)
+
+app.use('/api/interview', interviewRoutes)
 
 Sentry.setupExpressErrorHandler(app);  // official method for v8+
 
