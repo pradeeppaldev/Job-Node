@@ -18,7 +18,7 @@ const Navbar = () => {
       <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
             <img onClick={() => navigate('/')} className='cursor-pointer' height={10} width={160} src={assets.logo} alt="" />
             {
-                user && !companyToken
+                user
                 ?<div className='flex items-center gap-3'>
                     <Link to={'/applications'}>Applied Jobs</Link>
                     <p>|</p>
@@ -30,11 +30,6 @@ const Navbar = () => {
                       🎤 AI Mock Interview
                     </Link>
                     <p>|</p>
-                    <p className='max-sm:hidden'>Hi, {user.firstName + (user.lastName ? " " + user.lastName : "")}</p>
-                    <UserButton/>
-                </div>
-                :user
-                ?<div className='flex items-center gap-3'>
                     <p className='max-sm:hidden'>Hi, {user.firstName + (user.lastName ? " " + user.lastName : "")}</p>
                     <UserButton/>
                 </div>
