@@ -1,5 +1,5 @@
 import express from 'express'
-import { applyForJob, getUserData, getUserJobApplications, updateUserResume } from '../controllers/userController.js'
+import { applyForJob, getUserData, getUserJobApplications, updateUserResume, updateUserProfile } from '../controllers/userController.js'
 import upload from '../config/multer.js'
 
 const router = express.Router()
@@ -15,5 +15,8 @@ router.get('/applications', getUserJobApplications)
 
 // Update user profile (resume)
 router.post('/update-resume', upload.single('resume'), updateUserResume)
+
+// Update user profile preferences & WhatsApp settings
+router.post('/update-profile', updateUserProfile)
 
 export default router

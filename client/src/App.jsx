@@ -16,6 +16,7 @@ import AiResumeDetails from './pages/ai-resume/AiResumeDetails'
 import MockInterviewHome from './pages/mock-interview/MockInterviewHome'
 import MockInterviewSession from './pages/mock-interview/MockInterviewSession'
 import MockInterviewReport from './pages/mock-interview/MockInterviewReport'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 import 'quill/dist/quill.snow.css'
 import { ToastContainer } from 'react-toastify';
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/' element={<Home/>}/>
           <Route path='/apply-job/:id' element={<ApplyJob/>}/>
           <Route path='/applications' element={<Applications/>}/>
+          <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
           <Route path='/analyze-resume' element={<AiResumeHome/>}/>
           <Route path='/analyze-resume/upload' element={<AiResumeUpload/>}/>
           <Route path='/analyze-resume/:id' element={<AiResumeDetails/>}/>

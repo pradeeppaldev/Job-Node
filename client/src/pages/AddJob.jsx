@@ -13,6 +13,7 @@ const AddJob = () => {
     const [category, setCategory] = useState('Programming')
     const [level, setLevel] = useState('Beginner Level')
     const [salary, setSalary] = useState()
+    const [skills, setSkills] = useState('')
 
     const editorRef = useRef(null)
     const quillRef = useRef(null)
@@ -27,7 +28,7 @@ const AddJob = () => {
         const description = quillRef.current.root.innerHTML
 
         const {data} = await axios.post(backendUrl + '/api/company/post-job', 
-          {title,description,salary,location,category,level},
+          {title,description,salary,location,category,level,skills},
           {headers:{token:companyToken}}
         )
 
@@ -35,6 +36,7 @@ const AddJob = () => {
           toast.success(data.message)
           setTitle('')
           setSalary(0)
+          setSkills('')
           quillRef.current.setText('')
         } else {
           toast.error(data.message)
@@ -61,6 +63,10 @@ const AddJob = () => {
         <div className='w-full'>
             <p className='mb-2'>Job Title</p>
             <input type="text" placeholder='Type here' onChange={e => setTitle(e.target.value)} value={title} required className='w-full max-w-lg px-3 py-2 border-2 border-gray-300 rounded' />
+        </div>
+        <div className='w-full'>
+            <p className='mb-2'>Required Skills (Comma Separated)</p>
+            <input type="text" placeholder='e.g. React, Node.js, Python, MongoDB' onChange={e => setSkills(e.target.value)} value={skills} className='w-full max-w-lg px-3 py-2 border-2 border-gray-300 rounded' />
         </div>
         <div className='w-full max-w-lg'>
             <p className='my-5'>Job Description</p>

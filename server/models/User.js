@@ -20,7 +20,27 @@ const userSchema = new mongoose.Schema({
     image:{
         type:String,
         required:true,
-    }
+    },
+    phoneNumber:{
+        type:String,
+        default:''
+    },
+    whatsappOptIn:{
+        type:Boolean,
+        default:false
+    },
+    skills:[{
+        type:String
+    }],
+    preferredLocations:[{
+        type:String
+    }],
+    preferredCategories:[{
+        type:String
+    }],
+    preferredLevels:[{
+        type:String
+    }]
 })
 
 const User = mongoose.model('User', userSchema)

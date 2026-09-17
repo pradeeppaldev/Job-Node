@@ -1,5 +1,6 @@
 import React from 'react'
 import { assets } from '../assets/assets'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -43,8 +44,10 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="text-center text-sm text-gray-400 mt-8">
-        © {new Date().getFullYear()} Job Node | All rights reserved.
+      <div className="text-center text-sm text-gray-400 mt-8 flex flex-col sm:flex-row items-center justify-center gap-2">
+        <span>© {new Date().getFullYear()} Job Node | All rights reserved.</span>
+        <span className="hidden sm:inline">|</span>
+        <Link to="/privacy-policy" className="hover:underline text-gray-300">Privacy Policy</Link>
       </div>
     </div>
   )

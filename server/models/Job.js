@@ -38,7 +38,10 @@ const jobSchema = new mongoose.Schema({
         ref: 'Company',
         required : true
     },
-})
+    skills: [{
+        type: String
+    }],
+}, { timestamps: true })
 
 const Job = mongoose.model('Job', jobSchema)
 

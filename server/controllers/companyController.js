@@ -4,6 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import generateToken from "../utils/generateToken.js";
 import Job from "../models/Job.js";
 import JobApplication from '../../server/models/jobApplications.js'
+import { processNewJobAlerts } from "../services/whatsappJobAlertService.js";
 
 // Register a new company
 export const registerCompany = async (req,res) => {
@@ -98,13 +99,18 @@ export const getCompanyData = async (req,res) => {
 // Post a new job
 export const postJob = async (req,res) => {
 
-    const { title, description, location,salary, level, category } = req.body
+    const { title, description, location, salary, level, category, skills } = req.body
 
     const companyId = req.company._id
-    
-    // console.log(companyId, { title, description, location, salary })
 
     try {
+        let skillsArray = [];
+        if (Array.isArray(skills)) {
+            skillsArray = skills;
+        } else if (typeof skills === "string" && skills.trim()) {
+            skillsArray = skills.split(",").map((s) => s.trim()).filter(Boolean);
+        }
+
         const newJob = new Job({
             title,
             description,
@@ -113,9 +119,15 @@ export const postJob = async (req,res) => {
             companyId,
             date: Date.now(),
             level,
-            category
+            category,
+            skills: skillsArray
         })
         await newJob.save()
+
+        // Trigger WhatsApp job alert workflow for newly created job
+        processNewJobAlerts(newJob._id).catch((err) => {
+            console.error("[PostJob] Error triggering WhatsApp alerts:", err.message);
+        });
 
         res.json({success:true, newJob})
     } catch (error) {

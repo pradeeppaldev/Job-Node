@@ -108,3 +108,48 @@ export const updateUserResume = async (req,res) => {
         res.json({success:false,message:error.message})
     }
 }
+
+// Update user profile preferences & WhatsApp settings
+export const updateUserProfile = async (req, res) => {
+    try {
+        const userId = req.auth.userId;
+        const {
+            phoneNumber,
+            whatsappOptIn,
+            skills,
+            preferredLocations,
+            preferredCategories,
+            preferredLevels,
+        } = req.body;
+
+        const userData = await User.findById(userId);
+        if (!userData) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        if (phoneNumber !== undefined) userData.phoneNumber = phoneNumber;
+        if (whatsappOptIn !== undefined) userData.whatsappOptIn = Boolean(whatsappOptIn);
+
+        if (Array.isArray(skills)) userData.skills = skills;
+        else if (typeof skills === "string")
+            userData.skills = skills.split(",").map((s) => s.trim()).filter(Boolean);
+
+        if (Array.isArray(preferredLocations)) userData.preferredLocations = preferredLocations;
+        else if (typeof preferredLocations === "string")
+            userData.preferredLocations = preferredLocations.split(",").map((l) => l.trim()).filter(Boolean);
+
+        if (Array.isArray(preferredCategories)) userData.preferredCategories = preferredCategories;
+        else if (typeof preferredCategories === "string")
+            userData.preferredCategories = preferredCategories.split(",").map((c) => c.trim()).filter(Boolean);
+
+        if (Array.isArray(preferredLevels)) userData.preferredLevels = preferredLevels;
+        else if (typeof preferredLevels === "string")
+            userData.preferredLevels = preferredLevels.split(",").map((l) => l.trim()).filter(Boolean);
+
+        await userData.save();
+
+        res.json({ success: true, message: "Profile Preferences Updated Successfully", user: userData });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+};
