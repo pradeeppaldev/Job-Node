@@ -12,19 +12,38 @@ export const verifyWebhook = (req, res) => {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
+  const configuredToken = (process.env.WHATSAPP_VERIFY_TOKEN || "").trim();
+  const receivedToken = typeof token === "string" ? token.trim() : "";
 
-  if (!verifyToken) {
-    console.error("[WhatsAppWebhook] WHATSAPP_VERIFY_TOKEN is missing in server environment.");
+  const isModeSubscribe = mode === "subscribe";
+  const isTokenMatch = configuredToken !== "" && receivedToken === configuredToken;
+
+  console.log(`[WhatsAppWebhook GET Verification Diagnosis]`, {
+    mode: mode || "MISSING",
+    isModeSubscribe,
+    receivedTokenExists: Boolean(token),
+    receivedTokenLength: receivedToken.length,
+    configuredTokenExists: Boolean(process.env.WHATSAPP_VERIFY_TOKEN),
+    configuredTokenLength: configuredToken.length,
+    isTokenMatch,
+    challengeExists: Boolean(challenge),
+  });
+
+  if (!configuredToken) {
+    console.error("[WhatsAppWebhook] WHATSAPP_VERIFY_TOKEN is missing or empty in server environment.");
     return res.status(500).send("Webhook verify token not configured");
   }
 
-  if (mode === "subscribe" && token === verifyToken) {
-    console.log("[WhatsAppWebhook] Webhook GET verification successful.");
+  if (isModeSubscribe && isTokenMatch) {
+    console.log("[WhatsAppWebhook] Webhook GET verification successful. Returning hub.challenge.");
     return res.status(200).send(challenge);
   } else {
-    console.warn("[WhatsAppWebhook] Webhook verification failed. Token mismatch or invalid mode.");
-    return res.sendStatus(403);
+    console.warn(
+      `[WhatsAppWebhook] Webhook verification failed. Reason: ${
+        !isModeSubscribe ? "Invalid hub.mode (expected 'subscribe')" : "Token mismatch"
+      }`
+    );
+    return res.status(403).send("Verification failed");
   }
 };
 
