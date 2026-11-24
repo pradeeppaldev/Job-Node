@@ -1,9 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ScoreCircle from '../ai-resume/ScoreCircle';
+import DetailedInterviewReport from './DetailedInterviewReport';
 
 const InterviewReport = ({ sessionData }) => {
   if (!sessionData) return null;
+
+  if (sessionData.reportHiddenByRecruiter) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-6">
+        <DetailedInterviewReport sessionData={sessionData} isRecruiterView={false} />
+        <div className="flex justify-center">
+          <Link
+            to="/applications"
+            className="px-6 py-3 bg-gray-900 hover:bg-black text-white font-bold text-sm rounded-xl shadow transition-colors"
+          >
+            ← Back to My Applications
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const isAdaptive = sessionData.mode === 'adaptive' && Array.isArray(sessionData.turns) && sessionData.turns.length > 0;
+
+  if (isAdaptive) {
+    return (
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-10 max-w-5xl w-full mx-auto animate-in fade-in duration-500 space-y-8">
+        <DetailedInterviewReport sessionData={sessionData} isRecruiterView={false} />
+        <div className="flex justify-center pt-4">
+          <Link
+            to="/applications"
+            className="px-6 py-3 bg-gray-900 hover:bg-black text-white font-bold text-sm rounded-xl shadow transition-colors"
+          >
+            ← Back to My Applications
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const {
     jobTitle,

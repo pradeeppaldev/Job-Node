@@ -1,5 +1,10 @@
 import express from 'express';
 import {
+  getMyInterviewAssignments,
+  getAssignmentDetails,
+  startAssignedInterview,
+  submitAdaptiveTurn,
+  endAdaptiveInterview,
   startInterview,
   submitMcq,
   submitSubjective,
@@ -9,7 +14,22 @@ import {
 
 const router = express.Router();
 
-// Start new interview session
+// Candidate: Get all assigned interviews
+router.get('/my-assignments', getMyInterviewAssignments);
+
+// Candidate: Get single assignment details
+router.get('/assignment/:id', getAssignmentDetails);
+
+// Candidate: Start or resume an assigned interview
+router.post('/start-assigned', startAssignedInterview);
+
+// Candidate: Submit answer for adaptive interview turn and receive follow-up / next question
+router.post('/adaptive-turn', submitAdaptiveTurn);
+
+// Candidate: End adaptive interview early and generate final report
+router.post('/end-early', endAdaptiveInterview);
+
+// Legacy start route (now assignment-guarded)
 router.post('/start', startInterview);
 
 // Submit MCQ section

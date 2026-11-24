@@ -20,6 +20,14 @@ const JobApplicationSchema = new mongoose.Schema({
         type: String,
         default: 'Pending'
     },
+    interviewStatus: {
+        type: String,
+        default: 'Not Assigned'
+    },
+    interviewAssignmentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'InterviewAssignment'
+    },
     date: {
         type: Number,
         required: true

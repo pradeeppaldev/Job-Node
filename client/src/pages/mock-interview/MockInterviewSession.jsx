@@ -5,6 +5,7 @@ import Footer from '../../components/Footer';
 import McqQuiz from '../../components/mock-interview/McqQuiz';
 import McqResults from '../../components/mock-interview/McqResults';
 import SubjectiveQuiz from '../../components/mock-interview/SubjectiveQuiz';
+import AdaptiveInterviewSession from '../../components/mock-interview/AdaptiveInterviewSession';
 import InterviewReport from '../../components/mock-interview/InterviewReport';
 import AppContext from '../../context/AppContext';
 import { useAuth } from '@clerk/clerk-react';
@@ -18,14 +19,20 @@ const MockInterviewSession = () => {
   const { getToken } = useAuth();
   const { backendUrl } = useContext(AppContext);
 
-  // 'mcq' | 'mcq-results' | 'subjective' | 'report'
-  const [step, setStep] = useState('mcq');
   const [session, setSession] = useState(location.state?.session || null);
   const [loadingSession, setLoadingSession] = useState(!location.state?.session);
 
+  // 'adaptive' | 'mcq' | 'mcq-results' | 'subjective' | 'report'
+  const [step, setStep] = useState(() => {
+    const s = location.state?.session;
+    if (!s) return 'adaptive';
+    if (s.status === 'completed') return 'report';
+    return s.mode === 'classic' ? 'mcq' : 'adaptive';
+  });
+
+  const [isSubmittingTurn, setIsSubmittingTurn] = useState(false);
   const [isSubmittingMcq, setIsSubmittingMcq] = useState(false);
   const [mcqData, setMcqData] = useState(null);
-
   const [isSubmittingSubjective, setIsSubmittingSubjective] = useState(false);
   const [reportData, setReportData] = useState(null);
 
@@ -46,6 +53,8 @@ const MockInterviewSession = () => {
           if (data.session.status === 'completed') {
             setReportData(data.session);
             setStep('report');
+          } else {
+            setStep(data.session.mode === 'classic' ? 'mcq' : 'adaptive');
           }
         } else {
           toast.error(data.message || 'Session not found.');
@@ -53,7 +62,7 @@ const MockInterviewSession = () => {
         }
       } catch (err) {
         console.error(err);
-        toast.error('Failed to load session details.');
+        toast.error(err.response?.data?.message || 'Failed to load session details.');
         navigate('/mock-interview');
       } finally {
         setLoadingSession(false);
@@ -63,7 +72,62 @@ const MockInterviewSession = () => {
     fetchSession();
   }, [id, session, backendUrl, getToken, navigate]);
 
-  // Handle MCQ submission
+  // Handle Adaptive Turn Submission (Phase 2)
+  const handleSubmitAdaptiveTurn = async (turnNumber, answer) => {
+    setIsSubmittingTurn(true);
+    try {
+      const token = await getToken();
+      const { data } = await axios.post(
+        `${backendUrl}/api/interview/adaptive-turn`,
+        { sessionId: id, turnNumber, answer },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (data.success) {
+        setSession(data.session);
+        if (data.isCompleted) {
+          setReportData(data.session);
+          setStep('report');
+          toast.success('Interview completed! Your grounded AI evaluation report is ready.');
+        }
+      } else {
+        toast.error(data.message || 'Failed to submit answer.');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Error processing answer. Please try again.');
+    } finally {
+      setIsSubmittingTurn(false);
+    }
+  };
+
+  // Handle End Interview Early
+  const handleEndEarly = async () => {
+    setIsSubmittingTurn(true);
+    try {
+      const token = await getToken();
+      const { data } = await axios.post(
+        `${backendUrl}/api/interview/end-early`,
+        { sessionId: id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (data.success) {
+        setSession(data.session);
+        setReportData(data.session);
+        setStep('report');
+        toast.info('Interview ended. Your evaluation report has been generated.');
+      } else {
+        toast.error(data.message || 'Failed to end interview.');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Error ending interview.');
+    } finally {
+      setIsSubmittingTurn(false);
+    }
+  };
+
+  // Handle Classic MCQ submission
   const handleSubmitMcq = async (userAnswers) => {
     setIsSubmittingMcq(true);
     try {
@@ -89,7 +153,7 @@ const MockInterviewSession = () => {
     }
   };
 
-  // Handle Subjective submission
+  // Handle Classic Subjective submission
   const handleSubmitSubjective = async (userAnswers) => {
     setIsSubmittingSubjective(true);
     try {
@@ -101,7 +165,6 @@ const MockInterviewSession = () => {
       );
 
       if (data.success) {
-        // Fetch full session details for complete report
         const res = await axios.get(`${backendUrl}/api/interview/session/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -151,6 +214,18 @@ const MockInterviewSession = () => {
           </div>
         ) : (
           <>
+            {step === 'adaptive' && session && (
+              <AdaptiveInterviewSession
+                session={session}
+                onSubmitTurn={handleSubmitAdaptiveTurn}
+                onEndEarly={handleEndEarly}
+                isSubmitting={isSubmittingTurn}
+                backendUrl={backendUrl}
+                getToken={getToken}
+                language="en-IN"
+              />
+            )}
+
             {step === 'mcq' && session?.mcqs && (
               <McqQuiz
                 mcqs={session.mcqs}
