@@ -1,5 +1,22 @@
 import express from 'express'
-import { changeJobApplicationsStatus, changeVisibility, getCompanyData, getCompanyJobApplicants, getCompanyPostedJobs, loginCompany, postJob, registerCompany } from '../controllers/companyController.js';
+import {
+    changeJobApplicationsStatus,
+    changeVisibility,
+    getCompanyData,
+    getCompanyJobApplicants,
+    getCompanyPostedJobs,
+    loginCompany,
+    postJob,
+    registerCompany,
+    getCompanyJobsWithApplicants,
+    assignInterviews,
+    getCompanyInterviewAssignments,
+    cancelInterviewAssignment,
+    retakeInterviewAssignment,
+    getCompanyInterviewSessionReport,
+    toggleCandidateReportVisibility,
+    getJobCandidateComparison
+} from '../controllers/companyController.js';
 import upload from '../config/multer.js';
 import { protectCompany } from '../middlewares/authMiddleware.js';
 
@@ -28,5 +45,15 @@ router.post('/change-status', protectCompany, changeJobApplicationsStatus)
 
 // change Applications Visibility
 router.post('/change-visibility', protectCompany, changeVisibility)
+
+// Recruiter AI Interview Management
+router.get('/jobs-with-applicants', protectCompany, getCompanyJobsWithApplicants)
+router.post('/assign-interviews', protectCompany, assignInterviews)
+router.get('/interview-assignments', protectCompany, getCompanyInterviewAssignments)
+router.post('/cancel-interview', protectCompany, cancelInterviewAssignment)
+router.post('/retake-interview', protectCompany, retakeInterviewAssignment)
+router.get('/interview-report/:id', protectCompany, getCompanyInterviewSessionReport)
+router.post('/toggle-report-visibility', protectCompany, toggleCandidateReportVisibility)
+router.get('/compare-candidates/:jobId', protectCompany, getJobCandidateComparison)
 
 export default router

@@ -14,6 +14,7 @@ import jobRoutes from './routes/jobRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import interviewRoutes from './routes/interviewRoutes.js'
 import whatsappRoutes from './routes/whatsappRoutes.js'
+import voiceRoutes from './routes/voiceRoutes.js'
 import {clerkMiddleware} from '@clerk/express'
 
 const app = express();
@@ -46,6 +47,8 @@ app.use('/api/users', userRoutes)
 app.use('/api/interview', interviewRoutes)
 
 app.use('/api/whatsapp', whatsappRoutes)
+
+app.use('/api/voice', voiceRoutes)
 
 Sentry.setupExpressErrorHandler(app);  // official method for v8+
 

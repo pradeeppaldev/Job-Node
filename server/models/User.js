@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     resume:{
         type:String
     },
+    parsedResume:{
+        type: mongoose.Schema.Types.Mixed,
+        default: null
+    },
+    parsedResumeUrl:{
+        type: String,
+        default: ''
+    },
     image:{
         type:String,
         required:true,

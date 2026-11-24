@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard'
 import AddJob from './pages/AddJob'
 import ManageJob from './pages/ManageJob'
 import ViewApplications from './pages/ViewApplications'
+import RecruiterAiInterviews from './pages/RecruiterAiInterviews'
 import AiResumeHome from './pages/ai-resume/AiResumeHome'
 import AiResumeUpload from './pages/ai-resume/AiResumeUpload'
 import AiResumeDetails from './pages/ai-resume/AiResumeDetails'
@@ -46,6 +47,7 @@ const App = () => {
               <Route path='add-job' element={<AddJob/>}></Route>
               <Route path='manage-jobs' element={<ManageJob/>}></Route>
               <Route path='view-applications' element={<ViewApplications/>}></Route>
+              <Route path='ai-interviews' element={<RecruiterAiInterviews/>}></Route>
             </>:null
             }
               

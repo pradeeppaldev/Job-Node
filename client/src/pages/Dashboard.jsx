@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Navigate, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import AppContext from '../context/AppContext'
 
 const Dashboard = () => {
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     const {companyData, setCompanyData, setCompanyToken} = useContext(AppContext)
 
@@ -18,10 +19,10 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        if(companyData) {
+        if (companyData && (location.pathname === '/dashboard' || location.pathname === '/dashboard/')) {
             navigate('/dashboard/manage-jobs')
         }
-    },[companyData])
+    }, [companyData, location.pathname])
 
   return (
     <div className='min-h-screen'>
@@ -49,7 +50,7 @@ const Dashboard = () => {
 
         <div className='flex items-start'>
 
-            {/* Left Sidebar with option to add job, manage jobs, view applications */}
+            {/* Left Sidebar with option to add job, manage jobs, view applications, ai interviews */}
             <div className='inline-block min-h-screen border-r-2'>
                 <ul className='flex flex-col items-start pt-5 text-gray-800'>
                     <NavLink className={({isActive}) => `flex items-center p-3 sm:px-6 gap-2 w-full hover:bg-gray-100 ${isActive && 'bg-blue-200 border-r-4 border-blue-500'}`} to={'/dashboard/add-job'}>
@@ -63,6 +64,10 @@ const Dashboard = () => {
                     <NavLink className={({isActive}) => `flex items-center p-3 sm:px-6 gap-2 w-full hover:bg-gray-100 ${isActive && 'bg-blue-200 border-r-4 border-blue-500'}`} to={'/dashboard/view-applications'}>
                         <img className='min-w-4' src={assets.person_tick_icon} alt="" />
                         <p className='max-sm:hidden'>View Applications</p>
+                    </NavLink>
+                    <NavLink className={({isActive}) => `flex items-center p-3 sm:px-6 gap-2 w-full hover:bg-gray-100 ${isActive && 'bg-blue-200 border-r-4 border-blue-500'}`} to={'/dashboard/ai-interviews'}>
+                        <span className='text-lg'>🎤</span>
+                        <p className='max-sm:hidden font-medium'>AI Interviews</p>
                     </NavLink>
                 </ul>
             </div>
